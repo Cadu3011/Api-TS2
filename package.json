@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start":"ts-node src/index.ts",
-    "dev":"nodemon --exec ts-node src/server.ts"
+    "start": "ts-node src/index.ts",
+    "dev": "nodemon --exec ts-node src/server.ts"
   },
   "author": "",
   "license": "ISC",
@@ -15,5 +15,8 @@
     "nodemon": "^3.1.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "mysql2": "^3.10.3"
   }
 }

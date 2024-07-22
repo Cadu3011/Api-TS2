@@ -1,3 +1,5 @@
+import { db } from "../connection"
+
 interface ClientData{
     id?:number
     name:string
@@ -12,8 +14,8 @@ export class ClientServices implements ClientData{
         this.name = name
         this.email= email
      }
-     public clientAddBD(data:ClientData):void{
-        const query = `INSERT INTO clients (nome,email) VALUES(${data.name},${data.email})`
-        console.log(query)
+     async clientAddBD (data:ClientData):Promise<void>{
+        const add = await db.query('INSERT INTO clientes (nome, email) VALUES (?, ?)',
+      [data.name, data.email])
      }
 }
