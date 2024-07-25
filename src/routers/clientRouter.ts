@@ -3,9 +3,9 @@ import { ClientController } from "../controllers/clientController";
 
 const router = Router()
 const clientController = new ClientController()
-router.get('/view',(clientController.viewClient))
-router.get('/list',(clientController.ViewListClient))
+router.get('/view',(clientController.queryClient))
+router.get('/list',(clientController.listClient))
 router.post('/add',(clientController.addClient))
-router.delete('/delete',(clientController.DeleteClient))
-router.put('/edit', clientController.EditClient)
+router.delete('/delete',(clientController.deleteClient))
+router.put('/edit', clientController.editClient)
 export default router

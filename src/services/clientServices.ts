@@ -1,39 +1,42 @@
-import { db } from "../connection"
+import { ClientModel } from "../models/clientModel"
 
-interface ClientData{
-    id?:number
-    name:string
-    email:string
-}
-export class ClientServices {
+export class ClientServices extends ClientModel{
     
-     async clientAddBD (data:ClientData):Promise<void>{
-        const add = await db.query('INSERT INTO clientes (nome, email) VALUES (?, ?)',
-      [data.name, data.email])
+     public clientAdd = async(data:ClientModel):Promise<boolean>=>{
+        const clientData = new ClientModel(data.name,data.email)
+        const clientExist = await clientData.QueryEmailClientBD(clientData)
+        if(clientData.conferClientData(clientData)===true && clientExist===false){
+            clientData.AddClientBD(clientData)
+            return true
+        }
+        return false
+     }
+     public clientEdit = async(data:ClientModel,id:number):Promise<boolean>=>{
+        const editClient = new ClientModel(data.name,data.email)
+        const idClient = Number(id)
+        const clientExist = await ClientModel.QueryClientBD(idClient)
+        if(typeof idClient == 'number'&& clientExist !== false){
+            editClient.EditClientBd(editClient,idClient)
+            return true
+        }return false
+    
+     }
+     public queryclient = async(data:any):Promise<any>=>{
+        const clientData = await ClientModel.QueryClientBD(data)
+        if(clientData != false){
+            return clientData
+        }return false
+     }
+     public listClient = async():Promise<any>=>{
+        const clientList = await ClientModel.ListClientBD()
+        if(clientList != false){
+            return true
+        }return false
+     }
+     public deleteclient = async(data:number):Promise<boolean>=>{
+        const deleteClient = await ClientModel.DeleteClientBD(data)
+        if(deleteClient !=false){
+            return true
+        }return false
      }
 }
-export const clientQueryBD = async (client:any):Promise<ClientData | false >=>{
-    const [rows] = await db.query('SELECT * FROM clientes WHERE email = ? OR nome = ?',
-    [client, client])
-    const clientes: ClientData[] = rows as ClientData[];
-    if (clientes.length === 0) {
-        return false;
-      }
-      return clientes[0]    
-}
-export const clientQueryListBD = async ():Promise<ClientData[] | false>=>{
-    const [rows] = await db.query('SELECT * FROM clientes ')
-    return rows as ClientData[];
-}
-export const clientDeleteBD = async (clientID:number):Promise<boolean>=>{
-    const [client] = await db.query('DELETE FROM clientes WHERE idclientes = ?',clientID)
-    if((client as any).affectedRows > 0){
-        return true
-    }else{
-        return false
-    }
-}
-export const clientEditBD = async (data:ClientData, idclient:any):Promise<void>=>{
-    const edit = await db.query('UPDATE clientes SET nome = ? WHERE idclientes = ?',[data.name,idclient])
-}
-
