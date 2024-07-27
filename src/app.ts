@@ -1,11 +1,11 @@
 import express, { Application } from 'express'
-import  router  from './routers/clientRouter'
+import  clientRouter  from './routers/clientRouter'
+import localRouter from './routers/localRouters'
 import bodyParser from 'body-parser'
-import {application,request,response} from 'express'
 
 const app:Application=express()
 app.use(bodyParser.json())
-app.use('/client',router)
+app.use('/api',clientRouter,localRouter)
 
 
 export {app}

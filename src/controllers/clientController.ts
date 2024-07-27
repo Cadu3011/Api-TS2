@@ -1,7 +1,6 @@
 import {Request,Response } from "express"
 import { ClientServices } from "../services/clientServices"
 
-
 export class ClientController{
     public addClient = async(req:Request,res:Response):Promise<void>=>{
         const clientData = new ClientServices(req.body.name,req.body.email)
