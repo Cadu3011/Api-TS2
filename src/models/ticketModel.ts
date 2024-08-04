@@ -5,7 +5,9 @@ interface TicketData{
     id_local:number
     destino:string,
     preco:number,
-    date?:Date
+    date?:Date,
+    status?:string
+    
 }
 export class TicketModel implements TicketData{
     id?:number;
@@ -14,19 +16,23 @@ export class TicketModel implements TicketData{
     destino: string;
     preco: number;
     date?: Date;
+    status?:string
+    
      
-    constructor(id_client:number,id_local:number,destino:string,preco:number,date?:Date,id?:number){
+    constructor(id_client:number,id_local:number,destino:string,preco:number,status?:string,date?:Date,id?:number){
         this.id = id
         this.id_client= id_client
         this.id_local = id_local
         this.destino = destino
         this.preco = preco
         this.date = date
+        this.status = status
     }    
     public addTicketBD = async(data:TicketData):Promise<void>=>{
         data.date = new Date 
-        const add = await db.query('INSERT INTO passagem (id_cliente, id_local,destino,preco,data_passagem) VALUES (?,?,?,?,?)',
-            [data.id_client,data.id_local,data.destino,data.preco,data.date])
+        data.status = 'pendente'
+        const add = await db.query('INSERT INTO passagem (id_cliente, id_local,destino,preco,data_passagem,status) VALUES (?,?,?,?,?,?)',
+            [data.id_client,data.id_local,data.destino,data.preco,data.date,data.status])
     }
     public conferTicketData(data:TicketData):boolean{
         if(typeof data.destino !== 'string' || data.destino === "" || typeof data.preco !== 'number' || data.preco <0 ){
@@ -42,4 +48,5 @@ export class TicketModel implements TicketData{
         }
         return tickets[0]  
     }
+    
 }

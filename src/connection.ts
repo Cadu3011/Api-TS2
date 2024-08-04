@@ -1,10 +1,10 @@
 import mysql from 'mysql2'
-
+require('dotenv').config(); 
 const query = mysql.createPool({
-    host: 'localhost',      // Altere para o seu host MySQL
-  user: 'root',           // Altere para o seu usuário MySQL
-  password: 'cadu3011',          // Altere para a sua senha MySQL
-  database: 'clientests'
+  host: `${process.env.HOST_BD}`,      
+  user: `${process.env.USER_BD}`,         
+  password: `${process.env.PASSWORD_BD}`,  
+  database: `${process.env.DATABASE_BD}`
 })
 
 export const db = query.promise();
