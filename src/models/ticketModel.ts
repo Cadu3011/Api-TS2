@@ -48,5 +48,9 @@ export class TicketModel implements TicketData{
         }
         return tickets[0]  
     }
+    static ListTicketBD = async():Promise<TicketData[] | false>=>{
+        const [rows] = await db.query('SELECT * FROM passagem ')
+        return rows as TicketData[];   
+    }
     
 }

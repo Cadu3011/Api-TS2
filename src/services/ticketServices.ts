@@ -13,4 +13,10 @@ export class TicketService extends TicketModel{
         }
         return false
     }
+    static ListTicket = async():Promise<any>=>{
+        const ticketList = await TicketModel.ListTicketBD()
+        if(ticketList != false){
+            return ticketList
+        }return false
+    }
 }

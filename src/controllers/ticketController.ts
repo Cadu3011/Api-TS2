@@ -11,4 +11,10 @@ export class TicketController{
             res.status(400).json({message:"tipos de dados invalidos ou cliente /local inexistente"})
         }
     }
+    public listTicket = async(req:Request, res:Response):Promise<void>=>{
+        const listTicket = await TicketService.ListTicket()
+        listTicket !=false?
+        res.json(listTicket):
+        res.json("nenhum cliente na lista")
+    }
 }
